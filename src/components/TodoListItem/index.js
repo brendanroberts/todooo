@@ -1,17 +1,20 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import Checkbox from "../ui/Checkbox";
-import {doToggleTodo} from '../../actions/creators'
+import {doToggleTodo} from '../../actions'
 
 function TodoItem({todo, onToggleTodo}) {
-    const {name, id} = todo;
+    const {name, id, completed} = todo;
     return (
         <Fragment>
             <li>
                 <Checkbox
                     onClick={() => onToggleTodo(id)}
+                    checked={completed ? 'checked' : ''}
                 />
-                {name}
+                <Link to={`/todos/${id}/edit`}>{name}</Link>
+
             </li>
         </Fragment>
     );

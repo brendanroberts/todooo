@@ -2,31 +2,38 @@ import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import TodoForm from "../form";
-import {doAddTodo} from "../../../../actions";
+import {doEditTodo} from "../../../../actions";
 
-class New extends Component {
+
+class Edit extends Component {
     constructor(props) {
         super(props);
 
+        const idParam = Number.parseInt(props.match.params.id, 10);
+        const currentTodo = this.props.todo.find(item => item.id === idParam);
         this.state = {
-            todo: {name: ''},
+            todo: currentTodo,
             redirectToIndex: false,
         };
-
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
     onSubmit(event) {
-        this.props.addTodo(this.state.todo);
+        this.props.editTodo(this.state.todo);
         this.setState({redirectToIndex: true});
         event.preventDefault();
     }
 
     onChange(event) {
         const {value} = event.target;
-        this.setState({todo: {name: value}});
+        const revisedTodo = {...this.state.todo, name: value};
+        this.setState((state, props) => {
+            return {
+                todo: revisedTodo
+            };
+        });
     }
 
     render() {
@@ -38,24 +45,31 @@ class New extends Component {
 
         return (
             <Fragment>
-                <h3>Add TODO</h3>
+                <h3>Edit TODO</h3>
                 <TodoForm
                     onSubmit={this.onSubmit}
                     onChange={this.onChange}
                     todo={this.state.todo}
-                    children="Add"
+                    children="Update"
                 />
             </Fragment>
         );
+
     }
+}
+
+function mapStateToProps(state) {
+    return {
+        todo: state.todoState,
+    };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        addTodo: (name) => {
-            dispatch(doAddTodo(name))
+        editTodo: (todo) => {
+            dispatch(doEditTodo(todo))
         },
     };
 }
 
-export default connect(null, mapDispatchToProps)(New);
+export default connect(mapStateToProps, mapDispatchToProps)(Edit);
