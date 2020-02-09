@@ -1,11 +1,11 @@
 import React from 'react';
+import { Checkbox as UiCheckbox } from 'semantic-ui-react';
 
-const Checkbox = ({onClick, className, checked = ''}) =>
-    <input
-        type="checkbox"
+const Checkbox = ({onClick, className, checked = false}) =>
+    <UiCheckbox
         onClick={onClick}
         className={className}
-        checked={checked}
+        defaultChecked={checked}
         onChange={() => {}}
     />
 

@@ -8,6 +8,9 @@ function todoReducer(state = [], action) {
         case actionTypes.TODO_EDIT : {
             return applyEditTodo(state, action);
         }
+        case actionTypes.TODO_DELETE : {
+            return applyDeleteTodo(state, action);
+        }
         case actionTypes.TODO_TOGGLE : {
             return applyToggleTodo(state, action);
         }
@@ -26,6 +29,10 @@ function applyEditTodo(state, action) {
             ? action.todo
             : todo
     );
+}
+
+function applyDeleteTodo(state, action) {
+    return state.filter(todo => todo.id !== action.todo.id);
 }
 
 function applyToggleTodo(state, action) {

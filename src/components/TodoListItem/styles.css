@@ -1,0 +1,12 @@
+.ui.list>.item.TodoListItem__item {
+    padding: 1.4em 0;
+}
+
+.TodoListItem__content {
+    margin-left: 5%;
+}
+
+.ui.checkbox.TodoListItem__checkbox {
+    display: table-cell;
+    transform: scale(1.3);
+}

@@ -26,4 +26,11 @@ function doEditTodo(todo) {
     };
 }
 
-export {doAddTodo, doEditTodo, doToggleTodo};
+function doDeleteTodo(todo) {
+    return {
+        type: actionTypes.TODO_DELETE,
+        todo: todo,
+    };
+}
+
+export {doAddTodo, doEditTodo, doDeleteTodo, doToggleTodo};

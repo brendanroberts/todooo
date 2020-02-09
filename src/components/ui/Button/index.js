@@ -1,12 +1,11 @@
 import React from 'react';
+import { Button as UiButton } from 'semantic-ui-react';
 
 const Button = ({onClick, className, children}) =>
-    <button
-        type="button"
+    <UiButton
         onClick={onClick}
         className={className}
-    >
-        {children}
-    </button>;
+        content={children}
+    />;
 
 export default Button;

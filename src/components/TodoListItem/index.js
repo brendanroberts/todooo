@@ -1,22 +1,25 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Checkbox from "../ui/Checkbox";
-import {doToggleTodo} from '../../actions'
+import {List} from 'semantic-ui-react';
+import {doToggleTodo} from '../../actions';
+import './styles.css';
 
 function TodoItem({todo, onToggleTodo}) {
     const {name, id, completed} = todo;
     return (
-        <Fragment>
-            <li>
-                <Checkbox
-                    onClick={() => onToggleTodo(id)}
-                    checked={completed ? 'checked' : ''}
-                />
+        <List.Item className={"TodoListItem__item"}>
+            <Checkbox
+                className={"TodoListItem__checkbox"}
+                onClick={() => onToggleTodo(id)}
+                checked={completed}
+            />
+            <List.Content className={"TodoListItem__content"}>
                 <Link to={`/todos/${id}/edit`}>{name}</Link>
+            </List.Content>
 
-            </li>
-        </Fragment>
+        </List.Item>
     );
 }
 

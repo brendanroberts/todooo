@@ -1,8 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import TodoForm from "../form";
-import {doEditTodo} from "../../../../actions";
+import {doEditTodo, doDeleteTodo} from "../../../../actions";
+import Button from "../../../ui/Button";
 
 
 class Edit extends Component {
@@ -18,12 +19,13 @@ class Edit extends Component {
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onDelete = this.onDelete.bind(this);
     }
 
     onSubmit(event) {
+        event.preventDefault();
         this.props.editTodo(this.state.todo);
         this.setState({redirectToIndex: true});
-        event.preventDefault();
     }
 
     onChange(event) {
@@ -36,6 +38,14 @@ class Edit extends Component {
         });
     }
 
+    onDelete(event) {
+        event.preventDefault();
+        if (window.confirm("Really?")) {
+            this.props.deleteTodo(this.state.todo);
+            this.setState({redirectToIndex: true});
+        }
+    }
+
     render() {
         const redirectToIndex = this.state.redirectToIndex;
 
@@ -46,12 +56,25 @@ class Edit extends Component {
         return (
             <Fragment>
                 <h3>Edit TODO</h3>
-                <TodoForm
-                    onSubmit={this.onSubmit}
-                    onChange={this.onChange}
-                    todo={this.state.todo}
-                    children="Update"
-                />
+                <div className={"ui grid"}>
+                    <div className={"row"}>
+                        <div className={"sixteen wide column"}>
+                            <TodoForm
+                                onSubmit={this.onSubmit}
+                                onChange={this.onChange}
+                                todo={this.state.todo}
+                                children="Update"
+                            />
+                        </div>
+                    </div>
+                    <div className={"row"}>
+                        <div className={"sixteen wide column"}>
+                            <Link to="/todos/new">
+                                <Button className={"ui negative basic"} onClick={this.onDelete}>Delete this item</Button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             </Fragment>
         );
 
@@ -68,6 +91,9 @@ function mapDispatchToProps(dispatch) {
     return {
         editTodo: (todo) => {
             dispatch(doEditTodo(todo))
+        },
+        deleteTodo: (todo) => {
+            dispatch(doDeleteTodo(todo))
         },
     };
 }
